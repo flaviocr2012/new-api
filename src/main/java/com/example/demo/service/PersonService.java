@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dao.PersonDAO;
 import com.example.demo.model.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +13,9 @@ public class PersonService {
 
     private final PersonDAO personDAO;
 
-    public PersonService(PersonDAO personDAO) {
+    // @Qualifier permite que você referencie qual objeto será injetado. Nesse caso, é o postgres.
+    @Autowired
+    public PersonService(@Qualifier("postgres") PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
 

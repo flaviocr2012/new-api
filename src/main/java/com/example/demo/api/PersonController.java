@@ -3,8 +3,10 @@ package com.example.demo.api;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +22,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public void addPerson(Person person) {
+    public void addPerson(@Valid @NonNull @RequestBody Person person) {
         personService.addPerson(person);
     }
 
@@ -29,18 +31,20 @@ public class PersonController {
         return personService.getAllPeople();
     }
 
+    // @PathVariable pega um trecho da url que é dinâmico, nesse caso "id"
     @GetMapping(path = "{id}")
-    public Person getPersonById(UUID id) {
+    public Person getPersonById(@PathVariable("id") UUID id) {
         return personService.getPersonById(id)
                 .orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deletePersonById(UUID id) {
+    public void deletePersonById(@PathVariable("id") UUID id) {
         personService.deletePerson(id);
     }
 
-    public void updatePerson(UUID id, Person person) {
+    @PutMapping
+    public void updatePerson(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody Person person) {
         personService.updatePerson(id, person);
     }
 
