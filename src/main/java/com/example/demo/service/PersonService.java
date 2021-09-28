@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.PersonDAO;
 import com.example.demo.model.Person;
 
 import java.util.List;
@@ -7,23 +8,31 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PersonService {
-    public void addPerson(Person person) {
 
+    private final PersonDAO personDAO;
+
+    public PersonService(PersonDAO personDAO) {
+        this.personDAO = personDAO;
+    }
+
+    public int addPerson(Person person) {
+        return personDAO.insertPerson(person);
     }
 
     public List<Person> getAllPeople() {
-        return null;
+        return personDAO.selectAllPeople();
     }
 
     public Optional<Person> getPersonById(UUID id) {
-        return null;
+        return personDAO.selectPersonById(id);
     }
 
-    public void deletePerson(UUID id) {
+    public int deletePerson(UUID id) {
+        return personDAO.deletePersonById(id);
 
     }
 
-    public void updatePerson(UUID id, Person person) {
-
+    public int updatePerson(UUID id, Person person) {
+        return personDAO.updatePersonById(id, person);
     }
 }
